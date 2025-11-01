@@ -1,0 +1,70 @@
+---
+import { onAuthStateChangedListener } from '../lib/auth';
+
+let redirectUrl = '';
+
+if (typeof window !== 'undefined') {
+  await new Promise((resolve) => {
+    onAuthStateChangedListener((user: any) => {
+      if (user) {
+        redirectUrl = '/home';
+      } else {
+        redirectUrl = '/login';
+      }
+      resolve(null);
+    });
+  });
+}
+---
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>🎵 Spotify Clone - Music Streaming</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto;
+      }
+      .container {
+        text-align: center;
+        color: white;
+      }
+      h1 {
+        font-size: 3rem;
+        margin: 0 0 1rem 0;
+      }
+      p {
+        font-size: 1.2rem;
+        margin: 0.5rem 0;
+        opacity: 0.9;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>🎵 Spotify Clone</h1>
+      <p>Loading...</p>
+      <p>Redirecting you to the application...</p>
+    </div>
+    <script>
+      const redirectUrl = '{{ redirectUrl }}';
+      if (redirectUrl) {
+        setTimeout(() => {
+          window.location.href = redirectUrl;
+        }, 500);
+      } else {
+        setTimeout(() => {
+          window.location.href = '/login';
+        }, 1000);
+      }
+    </script>
+  </body>
+</html>
